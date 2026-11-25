@@ -49,6 +49,15 @@ lib/
   screens/     as telas do app
 ```
 
+## Otimizações de desempenho
+
+- **Cache na `ExpenseStore`:** a lista ordenada, as despesas do mês, o total e os totais por categoria são calculados uma vez e reaproveitados até os dados mudarem. Antes, cada leitura ordenava a lista inteira de novo.
+- **Listas com `ListView.builder`:** só os itens visíveis são construídos, então listas grandes continuam fluidas.
+- **Reconstrução limitada:** `ListenableBuilder` reconstrói apenas os widgets que dependem dos dados, e os widgets fixos usam `const`.
+- **Sem vazamento de memória:** os `TextEditingController` são liberados com `dispose()`.
+
+Para medir o antes x depois, veja [docs/MEDICAO_DESEMPENHO.md](docs/MEDICAO_DESEMPENHO.md). A tela **Sobre** tem um teste de desempenho e um botão que carrega 5.000 despesas de teste.
+
 ## Tecnologias
 
 Flutter, Dart e Material Design 3. Sem pacotes externos e sem API.
